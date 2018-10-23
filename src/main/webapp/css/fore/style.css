@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+div.mainContent {
+	margin-top: 50px;
+}
+div.formDiv {
+	margin: 0px auto;
+	width: 500px;
+}
+
+div.formHeader {
+	text-align: center;
+}
+
+div.formBody {
+	margin-top: 20px;
+}

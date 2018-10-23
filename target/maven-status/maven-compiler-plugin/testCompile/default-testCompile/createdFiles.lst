@@ -1,0 +1,7 @@
+com\zhihao\seckill\service\UserServiceTest.class
+com\zhihao\seckill\dao\cache\RedisDaoTest.class
+com\zhihao\seckill\dao\SeckillDaoTest.class
+com\zhihao\seckill\dao\SuccessKilledDaoTest.class
+com\zhihao\seckill\service\SeckillServiceTest.class
+com\zhihao\seckill\service\SuccessKilledServiceTest.class
+com\zhihao\seckill\dao\UserDaoTest.class

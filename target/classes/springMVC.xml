@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop.xsd
+                           http://www.springframework.org/schema/context 
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/tx 
+                           http://www.springframework.org/schema/tx/spring-tx.xsd
+                           http://www.springframework.org/schema/mvc
+                           http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+                           
+  <!-- 开启注解 -->                           
+  <context:annotation-config/>                          
+
+  <!-- 包扫描路径 -->
+  <context:component-scan base-package="com.zhihao.seckill.controller">
+    <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/> 
+  </context:component-scan>
+  
+  <!-- 开启springMVC注解识别 -->
+  <mvc:annotation-driven/>
+  
+  <!-- 静态资源访问 -->
+  <mvc:default-servlet-handler/>
+  
+  <!-- 配置Freemarker属性文件路径 -->
+  <bean id="freemarkerConfiguration" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+      <property name="location" value="classpath:freemarker.properties"/>
+  </bean> 
+  <!-- 配置freeMarker的模板路径 -->
+  <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+      <property name="freemarkerSettings" ref="freemarkerConfiguration"/>
+      <property name="templateLoaderPath">
+          <value>/WEB-INF/freemarker/</value>
+      </property>
+      <property name="freemarkerVariables">
+          <map>
+              <entry key="xml_escape" value-ref="fmXmlEscape"/>
+          </map>
+      </property>
+  </bean>
+  <bean id="fmXmlEscape" class="freemarker.template.utility.XmlEscape"/>
+  <!-- 配置freeMarker视图解析器 -->
+  <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+      <property name="viewClass" value="org.springframework.web.servlet.view.freemarker.FreeMarkerView"/>
+      <property name="contentType" value="text/html;charset=utf-8"/>
+      <property name="exposeSpringMacroHelpers" value="true"/>
+      <property name="exposeRequestAttributes" value="true"/>
+      <property name="suffix" value=".ftl"/>
+      <property name="order" value="0"/>
+  </bean> 
+  
+  <!-- jsp视图定位 -->
+  <!-- <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+    <property name="prefix" value="/WEB-INF/jsp/" />
+    <property name="suffix" value=".jsp" />
+  </bean> -->
+  
+  <!-- spring AOP -->
+  <aop:config proxy-target-class="true"></aop:config>
+  
+  <!-- 拦截器配置 -->
+ <mvc:interceptors>
+    <mvc:interceptor>
+      <mvc:mapping path="/**"/> 
+      <bean id="loginInterceptor" class="com.zhihao.seckill.interceptor.LoginInterceptor"></bean>
+    </mvc:interceptor>
+  </mvc:interceptors>
+</beans>
